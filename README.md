@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Julia](https://img.shields.io/badge/Julia-1.10-9558B2)](https://julialang.org/)
-[![CI](https://github.com/KakashiTech/wdw-equivariance-demo/actions/workflows/CI.yml/badge.svg)](https://github.com/KakashiTech/wdw-equivariance-demo/actions)
+[![CI](https://github.com/KakashiTech/WDW/actions/workflows/CI.yml/badge.svg)](https://github.com/KakashiTech/WDW/actions)
 
 **Fourier bispectrum features are provably shift-invariant.** No data augmentation. No learned approximation. The phase cancels algebraically.
 
@@ -16,14 +16,14 @@
 | 4 | **MLP: 25% vs WDW: 100%** (same data, same budget) | MLP ~10× params, 4× epochs → random |
 
 ```bash
-# Quick demo — equivariance detection & recovery
+# Quick demo — equivariance detection & recovery (works)
 julia --project=. examples/equivariance_recovery.jl 12 0.10 1
+
+# Run all tests (316/316 pass)
+julia --project -e 'using Pkg; Pkg.test()'
 
 # Full pipeline — all 4 verified results
 julia --project bench/fft_pipeline/run_pipeline_completo.jl
-
-# Run all tests
-julia --project -e 'using Pkg; Pkg.test()'
 ```
 
 ## The Math (In 3 Lines)
@@ -82,15 +82,15 @@ WDW.jl (Main — 32+ submodules)
 
 ```bash
 # Install
-git clone https://github.com/KakashiTech/WDW.jl
-cd WDW.jl
+git clone https://github.com/KakashiTech/WDW
+cd WDW
 julia --project -e 'using Pkg; Pkg.instantiate()'
-
-# Run tests
-julia --project -e 'using Pkg; Pkg.test()'
 
 # Run the equivariance demo
 julia --project examples/equivariance_recovery.jl 12 0.10 1
+
+# Run all tests
+julia --project -e 'using Pkg; Pkg.test()'
 ```
 
 ## Programmatic
@@ -116,10 +116,10 @@ println("Cₙ = $(cn)%  Dₙ = $(dn)%  Gap = $(cn - dn)pp")
 | Script | Description |
 |--------|-------------|
 | `bench/fft_pipeline/run_pipeline_completo.jl` | All 4 verified results |
-| `bench/fft_pipeline/run_certified_benchmark.jl` | Timestamped certificate |
-| `bench/fft_pipeline/run_oneshot.jl` | 1-shot classification |
-| `bench/fft_pipeline/run_robustness.jl` | Multi-seed scaling |
-| `bench/fft_pipeline/run_final_verdict.jl` | WDW vs MLP comparison |
+| `bench/fft_pipeline/run_certified_benchmark.jl` | [⚠️ WIP] Timestamped certificate |
+| `bench/fft_pipeline/run_oneshot.jl` | [⚠️ WIP] 1-shot classification |
+| `bench/fft_pipeline/run_robustness.jl` | [⚠️ WIP] Multi-seed scaling |
+| `bench/fft_pipeline/run_final_verdict.jl` | [⚠️ WIP] WDW vs MLP comparison |
 | `bench/run_benchmark.jl` | Unified parameterized benchmark |
 
 ## Limitations (Honest)
@@ -140,6 +140,6 @@ MIT — see [LICENSE](LICENSE).
   title = {WDW.jl: Algebraic Neural Networks with Provable Symmetry},
   author = {KakashiTech},
   year = {2026},
-  url = {https://github.com/KakashiTech/WDW.jl}
+  url = {https://github.com/KakashiTech/WDW}
 }
 ```
