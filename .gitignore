@@ -1,0 +1,49 @@
+# Julia
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+Manifest.toml
+*.so
+*.dylib
+
+# Root docs / checklists / commentary
+/WDW.md
+/WDW_arxiv.md
+
+# Generated artifacts
+bench/*.csv
+bench/*.txt
+bench/*.tex
+bench/paper/*.csv
+bench/paper/*.txt
+bench/paper/*.tex
+test/bench/
+results/
+data/*ubyte
+data/*idx
+
+# Deprecated / not part of package
+/src/mlp_baseline.jl
+mlp_baseline.jl
+
+# Extra test suites (not part of standard test)
+extras/
+microtest/
+.dockerignore
+Dockerfile
+audit_report.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+docs/build/
+docs/site/

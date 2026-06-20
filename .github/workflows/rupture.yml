@@ -1,0 +1,45 @@
+name: rupture
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  rupture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Julia
+        uses: julia-actions/setup-julia@v1
+        with:
+          version: '1.10'
+
+      - name: Run rupture harness (Case 1)
+        run: julia --project=. bench/rupture_harness.jl
+
+      - name: Upload rupture artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: rupture-artifacts
+          path: |
+            bench/rupture_results.csv
+            bench/rupture_certificate.txt
+            bench/rupture_results_case2.csv
+            bench/rupture_certificate_case2.txt
+            bench/rupture_results_case3.csv
+            bench/rupture_certificate_case3.txt
+            bench/rupture_results_case4.csv
+            bench/rupture_certificate_case4.txt
+            bench/rupture_results_case4_cmp.csv
+            bench/rupture_certificate_case4_cmp.txt
+            bench/rupture_results_Dprime.csv
+            bench/rupture_certificate_Dprime.txt
+            bench/rupture_results_Fprime.csv
+            bench/rupture_certificate_Fprime.txt
+            bench/rupture_results_Gprime.csv
+            bench/rupture_certificate_Gprime.txt
+            bench/rupture_results_Gprime_adv.csv
+            bench/rupture_certificate_Gprime_adv.txt
