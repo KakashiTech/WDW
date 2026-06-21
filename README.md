@@ -122,13 +122,6 @@ println("Cₙ = $(cn)%  Dₙ = $(dn)%  Gap = $(cn - dn)pp")
 | `bench/fft_pipeline/run_final_verdict.jl` | [⚠️ WIP] WDW vs MLP comparison |
 | `bench/run_benchmark.jl` | Unified parameterized benchmark |
 
-## Limitations (Honest)
-
-1. **Time-reversal pair dataset** — the 100pp Cₙ≠Dₙ gap requires this structure. On general data (MNIST), power spectrum already classifies and the gap is 0pp.
-2. **Feature engineering, not architecture** — an MLP on pre-computed bispectrum features matches WDW. The advantage is in the FFT + bispectrum construction, not the classifier.
-3. **Pure-Julia FFT** — ~10× slower than FFTW for n > 1024. Chosen for Zygote gradient compatibility.
-4. **Tested up to n=128** — theory scales arbitrarily, pipeline verified at these sizes.
-
 ## License
 
 MIT — see [LICENSE](LICENSE).
