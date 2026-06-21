@@ -1,7 +1,7 @@
 #!/usr/bin/env julia
 # WDW Unified Pipeline Benchmark
-# Ejecuta el pipeline integrado Sheaves→Quivers→Q-G-ENN→MERA→Krylov
-# con ciclos de ruptura-recuperación para medición real de invariantes.
+# Runs the integrated Sheaves → Quivers → Q-G-ENN → MERA → Krylov pipeline
+# with rupture-recovery cycles for real invariant measurement.
 
 using LinearAlgebra
 using Random
@@ -18,7 +18,7 @@ end
 """
     run_unified_benchmark(n::Int; noise_mags=[0.1, 0.5, 1.0, 2.0], seeds=[0,1,2])
 
-Ejecuta benchmark completo del pipeline unificado con múltiples condiciones.
+Runs the full unified pipeline benchmark across multiple conditions.
 """
 function run_unified_benchmark(n::Int; noise_mags=[0.1, 0.5, 1.0, 2.0], seeds=[0,1,2])
     ensure_bench_dir()
@@ -31,9 +31,9 @@ function run_unified_benchmark(n::Int; noise_mags=[0.1, 0.5, 1.0, 2.0], seeds=[0
     
     # Crear pipeline
     pipeline = U.WDWPipeline(n, compression_levels=3, krylov_dim=min(20, n÷2))
-    println("Pipeline creado:")
-    println("  Grupo: dihedral (|G|=$(length(pipeline.group.perms)))")
-    println("  Quivers: $(length(pipeline.quiver.edges)) aristas")
+    println("Pipeline created:")
+    println("  Group: dihedral (|G|=$(length(pipeline.group.perms)))")
+    println("  Quivers: $(length(pipeline.quiver.edges)) edges")
     println()
     
     results = []
@@ -42,17 +42,17 @@ function run_unified_benchmark(n::Int; noise_mags=[0.1, 0.5, 1.0, 2.0], seeds=[0
         for noise_mag in noise_mags
             Random.seed!(seed)
             
-            # Datos de entrada
+            # Input data
             input_data = randn(n)
             
-            # Pipeline completo
+            # Full pipeline
             state, T_mat, thetas = U.process(pipeline, input_data)
             
-            # Ruptura y recuperación
+            # Rupture and recovery
             ruptured = U.induce_rupture(state, noise_mag)
             recovered, eq_rec = U.recover(pipeline, ruptured)
             
-            # Métricas
+            # Metrics
             metrics, S_score, _, _ = U.measure_invariants(pipeline, state, ruptured, recovered, noise_mag=noise_mag)
             
             result = (
@@ -86,7 +86,7 @@ end
 """
     write_unified_csv(results, filename)
 
-Escribe resultados a CSV.
+Write results to CSV.
 """
 function write_unified_csv(results, filename)
     header = ["n", "seed", "noise_mag", "equivariance_base", "equivariance_ruptured", 
@@ -105,13 +105,13 @@ end
 """
     write_unified_certificate(results, filename, n)
 
-Genera certificado de ruptura unificado.
+Generate unified rupture certificate.
 """
 function write_unified_certificate(results, filename, n)
     # Filtrar por n
     relevant = filter(r -> r.n == n, results)
     
-    # Estadísticas
+    # Statistics
     successes = count(r -> r.success, relevant)
     total = length(relevant)
     avg_recovery = mean(r -> r.recovery_ratio, relevant)
@@ -141,13 +141,13 @@ function write_unified_certificate(results, filename, n)
         println(io, "="^70)
     end
     
-    println("Certificado escrito: $filename")
+    println("Certificate written: $filename")
 end
 
 """
     run_comparison_baseline(n::Int; seed=0)
 
-Compara pipeline WDW unificado contra baseline sin estructura.
+Compare WDW unified pipeline against non-structured baseline.
 """
 function run_comparison_baseline(n::Int; seed=0)
     Random.seed!(seed)
@@ -167,10 +167,10 @@ function run_comparison_baseline(n::Int; seed=0)
     
     metrics_wdw, S_wdw, _, _ = U.measure_invariants(pipeline, state_wdw, ruptured_wdw, recovered_wdw)
     
-    # Baseline: sin proyección equivariante (aplicar ruido directo)
+    # Baseline: no equivariant projection (direct noise application)
     noise = 1.0 * randn(T, size(state_wdw.equivariant_output))
     baseline_ruptured = state_wdw.equivariant_output + noise
-    # "Recuperación" baseline = ninguna (o identidad)
+    # "Recovery" baseline = none (identity)
     baseline_recovered = baseline_ruptured  # Sin proyección
     
     eq_base_bl = U.equivariance_error(pipeline, state_wdw.equivariant_output)
@@ -200,7 +200,7 @@ end
 """
     run_closed_loop_test(n::Int; iterations=5, seed=0)
 
-Test del "bucle cerrado": múltiples ciclos ruptura-recuperación.
+Closed loop test: multiple rupture-recovery cycles.
 """
 function run_closed_loop_test(n::Int; iterations=5, seed=0)
     Random.seed!(seed)
@@ -229,7 +229,7 @@ function run_closed_loop_test(n::Int; iterations=5, seed=0)
         @printf("  %d  |  %.3e  |    %.3e    |   %.3f\n",
                 iter, metrics.equivariance_recovered, metrics.recovery_ratio, S_cumulative/iter)
         
-        # Estado para siguiente iteración
+        # State for next iteration
         state, _, _ = U.process(pipeline, recovered[:, 1])
     end
     
@@ -244,17 +244,17 @@ function main()
     println("WDW UNIFIED SYSTEM - COMPLETE TEST SUITE")
     println("="^70)
     
-    # Test 1: Benchmark con múltiples condiciones (n=32)
+    # Test 1: Benchmark across multiple conditions (n=32)
     results_32 = run_unified_benchmark(32, noise_mags=[0.1, 0.5, 1.0, 2.0], seeds=[0,1,2])
     write_unified_csv(results_32, "bench/unified_pipeline_32.csv")
     write_unified_certificate(results_32, "bench/unified_certificate_32.txt", 32)
     
-    # Test 2: Benchmark con n=64
+    # Test 2: Benchmark with n=64
     results_64 = run_unified_benchmark(64, noise_mags=[0.1, 0.5, 1.0], seeds=[0,1])
     write_unified_csv(results_64, "bench/unified_pipeline_64.csv")
     write_unified_certificate(results_64, "bench/unified_certificate_64.txt", 64)
     
-    # Test 3: Comparación contra baseline
+    # Test 3: Comparison against baseline
     run_comparison_baseline(32, seed=42)
     
     # Test 4: Bucle cerrado

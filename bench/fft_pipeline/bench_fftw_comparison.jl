@@ -1,40 +1,44 @@
 #!/usr/bin/env julia
-# Compare myfft (pure Julia) vs FFTW speed at various sizes
+# Compare fft_dispatch (pure-Julia fallback) vs FFTW backend speed
+# Demonstrates the optional FFTW integration (Breakthrough #4)
 using WDW, LinearAlgebra, Printf
 
 const FG = WDW.FFTGroup
 const SIZES = [16, 32, 64, 128, 256, 512, 1024]
 
-# Check if FFTW is available (not a direct dependency; may be loaded via Julia stdlib or separately)
-fftw_available = try
-    using FFTW
-    true
-catch
-    false
-end
+# Check if FFTW is available
+fftw_available = FG._fftw_available[]
 
 println("="^60)
-println("  FFT Performance: myfft (Julia) vs FFTW")
+println("  FFT Backend Comparison: Julia fallback vs FFTW")
 println("="^60)
-if fftw_available
-    @printf "  %-8s %-20s %-20s %-15s\n" "n" "myfft (μs)" "FFTW (μs)" "ratio"
-    println("  " * "-"^63)
-    for n in SIZES
-        x = randn(n)
-        t_my = @elapsed FG.myfft(x)
-        t_fftw = @elapsed fft(x)
-        @printf "  n=%-4d %18.3f %18.3f %13.2f×\n" n t_my*1e6 t_fftw*1e6 t_my/t_fftw
+
+@printf "  %-8s %-22s %-22s %-12s\n" "n" "Julia (μs)" "FFTW via dispatch (μs)" "ratio"
+println("  " * "-"^66)
+
+for n in SIZES
+    x = randn(n)
+    FG.use_fftw[] = false
+    t_julia = @elapsed FG.fft_dispatch(x)
+    if fftw_available
+        FG.use_fftw[] = true
+        t_fftw = @elapsed FG.fft_dispatch(x)
+        @printf "  n=%-4d %20.3f %20.3f %10.2f×\n" n t_julia*1e6 t_fftw*1e6 t_julia/t_fftw
+    else
+        @printf "  n=%-4d %20.3f %20s\n" n t_julia*1e6 "N/A"
     end
+end
+
+# Reset to default
+FG.use_fftw[] = false
+
+println()
+if !fftw_available
+    println("  FFTW not available in this environment.")
+    println("  Install via `using Pkg; Pkg.add(\"FFTW\")` and restart Julia.")
+    println("  Then set `FG.use_fftw[] = true` to enable 10-100× speedup.")
 else
-    println("  FFTW not available in this environment; measuring myfft only")
-    println()
-    @printf "  %-8s %-20s\n" "n" "myfft (μs)"
-    println("  " * "-"^29)
-    for n in SIZES
-        x = randn(n)
-        t_my = @elapsed FG.myfft(x)
-        @printf "  n=%-4d %18.3f\n" n t_my*1e6
-    end
-    println()
-    println("  Note: Install FFTW via `using Pkg; Pkg.add(\"FFTW\")` for comparison.")
+    println("  FFTW IS available — set `FG.use_fftw[] = true` in your script.")
+    println("  All fft_dispatch/ifft_dispatch calls route through FFTW automatically.")
+    println("  Zygote adjoints remain fully differentiable with either backend.")
 end

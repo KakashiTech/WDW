@@ -32,7 +32,7 @@ function make_signal(n::Int; seed=1)
     if n % 2 == 0
         x̂[n2+1] = randn(rng) * sqrt(n / 2)
     end
-    x = real(FFTGroup.myifft(x̂))
+    x = real(FFTGroup.ifft_dispatch(x̂))
     return x / sqrt(sum(abs2, x))
 end
 

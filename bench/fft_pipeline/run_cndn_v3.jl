@@ -53,7 +53,7 @@ function make_random_signal(n::Int; noise=0.05)
     for ω in n2+2:n
         push!(x̂, conj(x̂[n-ω+2]))
     end
-    x = real(FFTGroup.myifft(x̂))
+    x = real(FFTGroup.ifft_dispatch(x̂))
     x .+= noise * randn(n)
     return x / sqrt(sum(abs2, x))
 end
@@ -109,7 +109,7 @@ function main()
     bc = zeros(n_actual)
 
     # Phase 1: Warm-start — power spectrum only
-    # Compute features once outside AD to avoid Zygote adjoint issues with myifft
+    # Compute features once outside AD to avoid Zygote adjoint issues with ifft_dispatch
     println("\n── Phase 1: Warm-start (power spectrum) ──")
     Wc_p = 0.01 * randn(n_actual, N)
     bc_p = zeros(n_actual)

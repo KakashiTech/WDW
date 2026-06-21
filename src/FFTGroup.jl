@@ -11,6 +11,7 @@ export stable_rng,
         CyclicFourierLayer,
         myfft, myifft,
        myfft2d, myifft2d,
+       fft_dispatch, ifft_dispatch, use_fftw,
        CyclicFourierLayer2D,
        combined_bispec_features_2d,
        bispec_features, bispec_features_dn,
@@ -183,7 +184,7 @@ function bispec_features(x::Vector{T}, layer::CyclicFourierLayer{T}) where T
         @warn "bispec_features assumes real-valued input; Complex input may produce incorrect features"
     end
     n = layer.n
-    x̂ = myfft(x)
+    x̂ = fft_dispatch(x)
     z = [layer.A[ω] * x̂[ω] for ω in 1:n]
     re = [real(z[ω] * z[2] * conj(z[mod(ω, n) + 1])) for ω in 1:n]
     im = [imag(z[ω] * z[2] * conj(z[mod(ω, n) + 1])) for ω in 1:n]
@@ -200,7 +201,7 @@ function bispec_features_dn(x::Vector{T}, layer::CyclicFourierLayer{T}) where T
     end
     A_sym[n2+1] = real(layer.A[n2+1])
     for ω in n2+2:n; A_sym[ω] = conj(A_sym[n-ω+2]); end
-    x̂ = myfft(x)
+    x̂ = fft_dispatch(x)
     z = [A_sym[ω] * x̂[ω] for ω in 1:n]
     re = [real(z[ω] * z[2] * conj(z[mod(ω, n) + 1])) for ω in 1:n]
     im = [imag(z[ω] * z[2] * conj(z[mod(ω, n) + 1])) for ω in 1:n]
@@ -215,7 +216,7 @@ function combined_bispec_features(x::Vector{T}, layer::CyclicFourierLayer{T}) wh
         @warn "combined_bispec_features assumes real-valued input; Complex input may produce incorrect features"
     end
     n = layer.n
-    x̂ = myfft(x)
+    x̂ = fft_dispatch(x)
     power = [abs2(layer.A[ω]) * abs2(x̂[ω]) + layer.b[ω] for ω in 1:n]
     z = [layer.A[ω] * x̂[ω] for ω in 1:n]
     re = [real(z[ω] * z[2] * conj(z[mod(ω, n) + 1])) for ω in 1:n]
@@ -232,7 +233,7 @@ function combined_bispec_features_dn(x::Vector{T}, layer::CyclicFourierLayer{T})
     end
     A_sym[n2+1] = real(layer.A[n2+1])
     for ω in n2+2:n; A_sym[ω] = conj(A_sym[n-ω+2]); end
-    x̂ = myfft(x)
+    x̂ = fft_dispatch(x)
     power = [abs2(A_sym[ω]) * abs2(x̂[ω]) + layer.b[ω] for ω in 1:n]
     z = [A_sym[ω] * x̂[ω] for ω in 1:n]
     re = [real(z[ω] * z[2] * conj(z[mod(ω, n) + 1])) for ω in 1:n]
@@ -268,7 +269,7 @@ end
 
 function combined_bispec_features_2d(x::Matrix{T}, layer::CyclicFourierLayer2D{T}) where T
     nx, ny = layer.nx, layer.ny
-    x̂ = myfft2d(x)
+    x̂ = fft_dispatch(x)
     # Power spectrum: |A[ω₁,ω₂]|² · |x̂[ω₁,ω₂]|² + b
     power_vec = [abs2(layer.A[i,j]) * abs2(x̂[i,j]) + layer.b[(i-1)*ny + j] for i in 1:nx, j in 1:ny]
     # Modulated spectrum
@@ -288,12 +289,12 @@ end
 
 function exact_recovery(x::Vector{T}, layer::CyclicFourierLayer{T}) where T
     n = layer.n
-    x̂ = myfft(x)
+    x̂ = fft_dispatch(x)
     z = [layer.A[ω] * x̂[ω] for ω in 1:n]
     x̂_rec = Complex{T}[
         abs(layer.A[ω]) > eps(T) ? z[ω] / layer.A[ω] : zero(Complex{T})
         for ω in 1:n]
-    return real(myifft(x̂_rec))
+    return real(ifft_dispatch(x̂_rec))
 end
 
 # =============================================================================
@@ -410,6 +411,101 @@ function train_bispec_2d!(layer::CyclicFourierLayer2D{T}, Wc::Matrix{T}, bc::Vec
         Wc .-= lr * gs[3]; bc .-= lr * gs[4]
     end
     return nothing
+end
+
+# =============================================================================
+# OPTIONAL FFTW BACKEND (10-100× faster for n > 1024)
+# =============================================================================
+# Users with FFTW installed get a fast differentiable FFT with no code changes.
+# Set use_fftw[] = true in your script to switch. Default: pure-Julia myfft.
+# The Zygote adjoint of fft is ifft scaled by n (Parseval identity).
+# =============================================================================
+
+const _fftw_available = Ref{Bool}(false)
+const use_fftw = Ref{Bool}(false)
+
+try
+    using FFTW
+    global function fftw_fft(x::Vector{T}) where T <: Number
+        return FFTW.fft(ComplexF64.(x))
+    end
+    global function fftw_fft(x::Matrix{T}) where T <: Number
+        return FFTW.fft(ComplexF64.(x))
+    end
+    global function fftw_ifft(X::Vector{Complex{T}}) where T
+        return FFTW.ifft(X)
+    end
+    global function fftw_ifft(X::Matrix{Complex{T}}) where T
+        return FFTW.ifft(X)
+    end
+
+    Zygote.@adjoint function fftw_fft(x::Vector{T}) where T <: Number
+        y = fftw_fft(x)
+        n = length(x)
+        return y, Δ -> (T <: Real ? real(fftw_ifft(ComplexF64.(Δ))) * n : fftw_ifft(ComplexF64.(Δ)) * n,)
+    end
+
+    Zygote.@adjoint function fftw_fft(x::Matrix{T}) where T <: Number
+        y = fftw_fft(x)
+        nx, ny = size(x)
+        return y, Δ -> (T <: Real ? real(fftw_ifft(ComplexF64.(Δ))) * nx * ny : fftw_ifft(ComplexF64.(Δ)) * nx * ny,)
+    end
+
+    Zygote.@adjoint function fftw_ifft(x::Vector{Complex{T}}) where T
+        y = fftw_ifft(x)
+        n = length(x)
+        return y, Δ -> (fftw_fft(ComplexF64.(Δ)) / n,)
+    end
+
+    Zygote.@adjoint function fftw_ifft(x::Matrix{Complex{T}}) where T
+        y = fftw_ifft(x)
+        nx, ny = size(x)
+        return y, Δ -> (fftw_fft(ComplexF64.(Δ)) / (nx * ny),)
+    end
+
+    _fftw_available[] = true
+catch e
+    _fftw_available[] = false
+end
+
+function fft_dispatch(x::Vector{T}) where T <: Number
+    return use_fftw[] && _fftw_available[] ? fftw_fft(x) : myfft(x)
+end
+
+function fft_dispatch(x::Matrix{T}) where T <: Number
+    return use_fftw[] && _fftw_available[] ? fftw_fft(x) : myfft2d(x)
+end
+
+function ifft_dispatch(X::Vector{Complex{T}}) where T
+    return use_fftw[] && _fftw_available[] ? fftw_ifft(X) : myifft(X)
+end
+
+function ifft_dispatch(X::Matrix{Complex{T}}) where T
+    return use_fftw[] && _fftw_available[] ? fftw_ifft(X) : myifft2d(X)
+end
+
+Zygote.@adjoint function fft_dispatch(x::Vector{T}) where T <: Number
+    y = fft_dispatch(x)
+    n = length(x)
+    return y, Δ -> (T <: Real ? real(ifft_dispatch(ComplexF64.(Δ))) * n : ifft_dispatch(ComplexF64.(Δ)) * n,)
+end
+
+Zygote.@adjoint function fft_dispatch(x::Matrix{T}) where T <: Number
+    y = fft_dispatch(x)
+    nx, ny = size(x)
+    return y, Δ -> (T <: Real ? real(ifft_dispatch(ComplexF64.(Δ))) * nx * ny : ifft_dispatch(ComplexF64.(Δ)) * nx * ny,)
+end
+
+Zygote.@adjoint function ifft_dispatch(X::Vector{Complex{T}}) where T
+    y = ifft_dispatch(X)
+    n = length(X)
+    return y, Δ -> (fft_dispatch(ComplexF64.(Δ)) / n,)
+end
+
+Zygote.@adjoint function ifft_dispatch(X::Matrix{Complex{T}}) where T
+    y = ifft_dispatch(X)
+    nx, ny = size(X)
+    return y, Δ -> (fft_dispatch(ComplexF64.(Δ)) / (nx * ny),)
 end
 
 end  # module

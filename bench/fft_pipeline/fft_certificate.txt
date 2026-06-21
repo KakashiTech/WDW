@@ -1,0 +1,36 @@
+==================================================================
+  WDW FFT PIPELINE — CERTIFIED BENCHMARK
+  Date: 2026-06-20T19:56:46.676
+==================================================================
+
+── SECTION 1: THEORETICAL PROPERTIES ──
+  Shift invariance error: 2.02e-15 (threshold <1e-10) [PASS]
+  Dn sensitivity (diff=6.39, threshold >0.01) [PASS]
+  Recovery MSE: 7.22e-34 (threshold <1e-15) [PASS]
+
+── SECTION 2: ONE-SHOT (n=32, 4 classes, 1 sample/class) ──
+  seed=1: Cn=100.0  Dn=0.0  gap=100.0pp  MLP=25.0
+  seed=2: Cn=100.0  Dn=0.0  gap=100.0pp  MLP=22.5
+  seed=3: Cn=100.0  Dn=0.0  gap=100.0pp  MLP=25.0
+  seed=4: Cn=100.0  Dn=0.0  gap=100.0pp  MLP=27.5
+  seed=5: Cn=100.0  Dn=0.0  gap=100.0pp  MLP=30.0
+  Result: [PASS]
+
+── SECTION 3: SCALABILITY ──
+  n      Cn(%)  gap(pp) MSE        params MLP(%)
+  -------------------------------------------------
+  n=16  100.0  100.0   5.57e-34  146   59.0  OK
+  n=32  100.0  100.0   3.08e-34  484   25.0  OK
+  n=64  100.0  100.0   8.82e-34  1736   12.5  OK
+  n=128 100.0  100.0   4.62e-34  6544    6.2  OK
+
+==================================================================
+  CERTIFICATION SUMMARY
+==================================================================
+  Shift invariance:    PASS
+  Dn sensitivity:      PASS
+  Recovery:            PASS
+  1-shot classif:      PASS
+  Scalability:         PASS
+  Overall:             ALL CLAIMS CERTIFIED
+==================================================================

@@ -270,7 +270,7 @@ function bispec_features(x::Vector{T}, layer::CyclicFourierLayer{T}) where T
 end
 
 # =============================================================================
-# DEMO HELPER FUNCTIONS (for symmetry_discovery_demo.jl)
+# DEMO HELPER FUNCTIONS
 # =============================================================================
 
 function make_shift_matrix(n::Int, k::Int)

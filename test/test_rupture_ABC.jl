@@ -135,8 +135,9 @@ end
 @testset "Rupture Criterion B: New Class Performance" begin
     print_section("CRITERIO B: NUEVA CLASE DE DESEMPEÑO")
     println("  " * "-"^66)
-    println("  Comparación estricta bajo igualdad de recursos")
-    println("  WDW vs Data Augmentation / Standard GNN / Spectral Reg")
+    println("  WDW vs Data Augmentation / Spectral Regularization / None")
+    println("  Quality = (1/(1+eq_inv)) × (1+anti_frac)")
+    println("  Rewards: low invariant error + preserved anti-invariant structure")
     println("  " * "-"^66)
     
     certifier = ABC.ABCCertifier(TEST_N, trials_per_test=20)
@@ -145,24 +146,24 @@ end
     s_scores_wdw = Float64[]
     performance_gaps = Dict{String, Vector{Float64}}()
     
-    # Initialize with actual baseline names (with spaces)
-    for method in ["Data Augmentation", "Standard GNN", "Spectral Regularization", "No Recovery"]
+    # Initialize with actual baseline method names (must match certifier.baseline_methods)
+    for method in certifier.baseline_methods
         performance_gaps[method] = Float64[]
     end
     
     for seed in TEST_SEEDS
         Random.seed!(seed)
         
-        # WDW
+        # WDW full pipeline recovery quality
         input_data = randn(TEST_N)
         state, _, _ = U.process(pipeline, input_data)
         ruptured = U.induce_rupture(state, 1.0)
         recovered, _ = U.recover(pipeline, ruptured)
-        metrics_wdw, s_score_wdw, _, _ = U.measure_invariants(pipeline, state, ruptured, recovered)
+        _, s_score_wdw, _, _ = U.measure_invariants(pipeline, state, ruptured, recovered)
         push!(s_scores_wdw, s_score_wdw)
         
-        # Baselines
-        baselines = ABC.run_baseline_comparison(certifier, pipeline, state, ruptured, recovered)
+        # Baselines (each runs a simplified pipeline on the same input_data)
+        baselines = ABC.run_baseline_comparison(certifier, pipeline, state, input_data)
         
         println("\n  Seed $seed - S-scores:")
         println("    WDW Unified:     ", @sprintf("%.4f", s_score_wdw))

@@ -22,7 +22,7 @@ function make_random_signal(n; noise=0.05)
     for ω in 2:n2; push!(x̂,abs(randn())*sqrt(n/2)*exp(im*rand()*2π)); end
     n%2==0 && push!(x̂,randn()*sqrt(n/2))
     for ω in n2+2:n; push!(x̂,conj(x̂[n-ω+2])); end
-    x=real(FFTGroup.myifft(x̂)); x.+=noise*randn(n); return x/sqrt(sum(abs2,x))
+    x=real(FFTGroup.ifft_dispatch(x̂)); x.+=noise*randn(n); return x/sqrt(sum(abs2,x))
 end
 
 function make_dataset(n, n_pairs, n_classes, n_train, n_test; seed=42)

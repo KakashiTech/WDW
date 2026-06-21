@@ -38,7 +38,7 @@ function make_random_signal(n::Int; noise=0.05)
     for ω in n2+2:n
         push!(x̂, conj(x̂[n-ω+2]))
     end
-    x = real(FFTGroup.myifft(x̂))
+    x = real(FFTGroup.ifft_dispatch(x̂))
     x .+= noise * randn(n)
     return x / sqrt(sum(abs2, x))
 end

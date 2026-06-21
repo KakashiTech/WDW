@@ -26,7 +26,7 @@ function make_signal(n; seed)
     end
     n%2==0 && push!(x̂,randn(rng)*sqrt(n/2))
     for ω in n2+2:n; push!(x̂,conj(x̂[n-ω+2])); end
-    x=real(FFTGroup.myifft(x̂)); x.+=0.05*randn(rng,n)
+    x=real(FFTGroup.ifft_dispatch(x̂)); x.+=0.05*randn(rng,n)
     return x/sqrt(sum(abs2,x))
 end
 

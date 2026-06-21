@@ -1,0 +1,115 @@
+measurement,clean_value,spurious_value
+"SymmetryProfile + Certificate:layer_divergence",0.6741060268625254,0.6741060268625254
+"SymmetryProfile + Certificate:data_profile_mean",1.0513932520651161,1.0513932520651161
+"SymmetryProfile + Certificate:fidelity",0.5973337315284143,0.5973337315284143
+"Breakthrough Experiment:zeroshot_accuracy",0.0,0.0
+"Breakthrough Experiment:experiment_success",0.0,0.0
+"Breakthrough Experiment:cross_domain_accuracy",0.0,0.0
+"Breakthrough Experiment:pacbayes_bound",1.0,1.0
+"Algebra Quivers:edge_density",0.755859375,0.755859375
+"Algebra Quivers:spectral_radius",0.9607864973412714,0.9607864973412714
+"Algebra Quivers:n_edges",774.0,774.0
+"Algebra Quivers:spectral_stability",0.0,0.0
+"Kripke Semantics:monotonic",0.0,0.0
+"Kripke Semantics:bot_holds",1.0,1.0
+"Kripke Semantics:imply_ratio",0.0,0.0
+"Kripke Semantics:top_holds",1.0,1.0
+"Theoretical Metrics:rissanen_mdl",0.06702733236014671,0.06702733236014671
+"Theoretical Metrics:empirical_accuracy",0.5,0.5
+"Theoretical Metrics:generalization_gap",1.0,1.0
+"Theoretical Metrics:rademacher",0.125,0.125
+"Theoretical Metrics:pac_bayes",0.6669410908139943,0.6669410908139943
+"Theoretical Metrics:effective_complexity",1.0,1.0
+"WDW Autoencoder:reconstruction_error",0.15010343259997255,0.15010343259997255
+"WDW Autoencoder:krylov_complexity",0.44315269944523267,0.44315269944523267
+"WDW Autoencoder:accuracy",0.25,0.25
+"Unified Pipeline:pipeline_success",1.0,1.0
+"Unified Pipeline:recovery_ratio",1.0,1.0
+"Unified Pipeline:signal_preservation",1.0,1.0
+"Unified Pipeline:s_score",0.8451844931719489,0.8451844931719489
+"Finite Sheaves:consistent_gluing",0.0,0.0
+"Finite Sheaves:inconsistent_gluing",1.0,1.0
+"Finite Sheaves:n_opens",32.0,32.0
+"Paper Metrics:dimension",32.0,32.0
+"LQG Data Space:n_edges",32.0,32.0
+"LQG Data Space:area_ratio",1.0,1.0
+"LQG Data Space:relabel_invariant",1.0,1.0
+"LQG Data Space:area_information",0.7005988023952096,0.7005988023952096
+"Logic DSL:monotonic",0.0,0.0
+"Logic DSL:and_imply_truth",0.0,0.0
+"Logic DSL:excluded_middle",1.0,1.0
+"Multi Dataset:dataset_dimension",32.0,32.0
+"Multi Dataset:n_synthetic_samples",50.0,50.0
+"Bio Microtubules:order_parameter",0.0,0.0
+"Bio Microtubules:lattice_size",32.0,32.0
+"Bio Microtubules:soliton_stability",0.9004819766485083,0.9004819766485083
+"Bio Microtubules:penrose_tau",0.49999999999975,0.49999999999975
+"QET Vacuum:zpe_entropy",0.954434002924965,0.954434002924965
+"QET Vacuum:correlation_strength",0.8176401883484705,0.8176401883484705
+"QET Vacuum:qet_decorrelation",0.08575223969549944,0.08575223969549944
+"QET Vacuum:qet_success",1.0,1.0
+"Auto Symmetry Discovery:reflection_sensitivity",1.0,1.0
+"Auto Symmetry Discovery:shift_invariance",1.0,1.0
+"Auto Symmetry Discovery:n_spurious_layers",2.0,2.0
+"Auto Symmetry Discovery:n_probes",8.0,8.0
+"Auto Symmetry Discovery:data_profile_mean",1.0,1.0
+"Auto Symmetry Discovery:data_profile_std",1.0,1.0
+"Auto Symmetry Discovery:max_divergence",1.0,1.0
+"Lattice Phonons:n_dof",50.0,50.0
+"Lattice Phonons:n_vacancies",0.0,0.0
+"Lattice Phonons:exists",1.0,1.0
+"Lattice Phonons:lattice_sites",25.0,25.0
+"Structural Experiments:mlp_accuracy",0.0,0.0
+"Structural Experiments:cnn_accuracy",0.000625,0.000625
+"Structural Experiments:wdw_params_ratio",0.0005698005698005698,0.0005698005698005698
+"Structural Experiments:wdw_vs_mlp_gap",0.0025,0.0025
+"Structural Experiments:wdw_accuracy",0.0025,0.0025
+"Computable Motives:rank_mod3",0.6666666666666666,0.6666666666666666
+"Computable Motives:max_motivic_feat",0.1,0.1
+"Computable Motives:motivic_dim",4.0,4.0
+"Computable Motives:betti0",0.03125,0.03125
+"Computable Motives:rank_mod5",1.0,1.0
+"Time ITE:monotone",1.0,1.0
+"Time ITE:energy_drop",0.2444420128861566,0.2444420128861566
+"Time ITE:final_energy",0.7555579871138434,0.7555579871138434
+"Time ITE:n_steps",21.0,21.0
+"Quantum Group:dimension",32.0,32.0
+"Quantum Group:n_perms",64.0,64.0
+"Krylov Complexity:offdiag_ratio",0.32042702231413106,0.32042702231413106
+"Krylov Complexity:krylov_complexity",0.4853384805054394,0.4853384805054394
+"Krylov Complexity:krylov_dim",10.0,10.0
+"Topological Functors:closure_extensive",1.0,1.0
+"Topological Functors:interior_idempotent",1.0,1.0
+"Topological Functors:heyting_imply_top",1.0,1.0
+"Topological Functors:interior_contractive",1.0,1.0
+"Rupture ABC:criterion_B",1.0,1.0
+"Rupture ABC:s_score",0.9540093150447774,0.9540093150447774
+"Rupture ABC:criterion_C",1.0,1.0
+"Rupture ABC:criterion_A",1.0,1.0
+"Rupture ABC:full_rupture",1.0,1.0
+"Tensor MERA:levels",5.0,5.0
+"Tensor MERA:kept_levels",4.0,4.0
+"Tensor MERA:compression_improvement",0.9991034128432011,0.9991034128432011
+"Tensor MERA:optimized_error",0.00037935383377204443,0.00037935383377204443
+"Tensor MERA:haar_compression_error",0.4231087082782295,0.4231087082782295
+"FFT Bispectrum Profile:probe_6",2.769858721906924,2.769858721906924
+"FFT Bispectrum Profile:probe_7",2.819773636361948,2.819773636361948
+"FFT Bispectrum Profile:probe_1",1.0590847458732426e-15,1.0590847458732426e-15
+"FFT Bispectrum Profile:data_profile_std",1.4511452550827444,1.4511452550827444
+"FFT Bispectrum Profile:max_divergence",2.8215136582520537,2.8215136582520537
+"FFT Bispectrum Profile:probe_8",2.8215136582520537,2.8215136582520537
+"FFT Bispectrum Profile:probe_3",0.0,0.0
+"FFT Bispectrum Profile:reflection_sensitivity",2.769858721906924,2.769858721906924
+"FFT Bispectrum Profile:probe_5",1.174379696253384e-15,1.174379696253384e-15
+"FFT Bispectrum Profile:n_probes",8.0,8.0
+"FFT Bispectrum Profile:probe_2",7.283497961290931e-16,7.283497961290931e-16
+"FFT Bispectrum Profile:shift_invariance",1.0,1.0
+"FFT Bispectrum Profile:data_profile_mean",1.0513932520651161,1.0513932520651161
+"FFT Bispectrum Profile:probe_4",7.283497961290931e-16,7.283497961290931e-16
+"Scalable WDW:dimension",32.0,32.0
+"Rigorous Metrics:mdl_bits",0.0796966470782027,0.0796966470782027
+"Rigorous Metrics:non_vacuous",0.0,0.0
+"Rigorous Metrics:n_params",484.0,484.0
+"Rigorous Metrics:pac_bayes_bound",1.0,1.0
+"Rigorous Metrics:generalization_ratio",10.0,10.0
+"Real World Applications:dimension",32.0,32.0
