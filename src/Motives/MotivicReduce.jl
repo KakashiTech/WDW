@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Motivic dimension reduction via SVD
 module MotivicReduce
 
 using LinearAlgebra

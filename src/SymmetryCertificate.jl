@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Formal model audit and symmetry certification
 """
     SymmetryCertificate.jl — Unified Symmetry Audit & Certification System
 

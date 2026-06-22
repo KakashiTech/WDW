@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Multi-agent time evolution
 module TimeMulti
 
 using LinearAlgebra

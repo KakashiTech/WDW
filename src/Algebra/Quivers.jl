@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Quiver representation theory and layers
 module Algebra
 
 using LinearAlgebra

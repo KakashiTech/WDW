@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: PCA-based structural fingerprint embedding
 module StructuralEmbedding
 
 using LinearAlgebra, Statistics, Random, Printf

@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Hyper-time metric simulation
 """
     module TimeHyper
 

@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Rissanen MDL, Fisher information, PAC-Bayes bounds
 """
     TheoreticalMetrics.jl
 

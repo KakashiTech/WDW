@@ -1,3 +1,4 @@
+# TIER 1 — CORE: Scalable optimizations for n >= 1000
 """
     ScalableWDW.jl
 

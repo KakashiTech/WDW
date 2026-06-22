@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Unified pipeline state machine (sheaf → quiver → MERA → Krylov)
 module UnifiedWDW
 
 using LinearAlgebra

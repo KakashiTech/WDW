@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: A/B/C rupture certification system
 module RuptureABC
 
 using LinearAlgebra

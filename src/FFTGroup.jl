@@ -1,3 +1,4 @@
+# TIER 1 — CORE: Verified Fourier bispectrum with algebraic shift invariance
 module FFTGroup
 
 # ╔══════════════════════════════════════════════════════════════╗

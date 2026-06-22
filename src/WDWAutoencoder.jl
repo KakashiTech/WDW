@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Differentiable autoencoder with equivariant layers
 """
     WDWAutoencoder.jl — v3.0 REAL Zygote Backprop
 

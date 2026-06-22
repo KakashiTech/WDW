@@ -1,3 +1,4 @@
+# TIER 1 — CORE: End-to-end classification pipeline with bispectrum features
 module FFTPipeline
 
 # ╔══════════════════════════════════════════════════════════════╗

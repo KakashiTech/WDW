@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Group-equivariant neural network framework
 module Quantum
 
 using LinearAlgebra

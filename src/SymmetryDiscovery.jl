@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Automated symmetry profiling and discovery
 """
     module SymmetryDiscovery
 

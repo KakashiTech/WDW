@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Loop quantum gravity spin networks
 module Gravity
 
 struct SpinNetwork

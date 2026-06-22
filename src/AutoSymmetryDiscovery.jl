@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Autonomous symmetry discovery (LieGAN, LieSD, SymmetryGAN)
 """
     AutoSymmetryDiscovery.jl
 

@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Imaginary-time evolution
 module TimeITE
 
 using LinearAlgebra

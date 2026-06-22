@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Sheaf theory with constant sheaves and gluing
 module Sheaves
 
 using ..Knowledge: TopSpace, Partial, glue_partial

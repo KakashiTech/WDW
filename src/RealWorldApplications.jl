@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Real-world application benchmarks (Poisson, graph, oscillators)
 """
     RealWorldApplications.jl
 

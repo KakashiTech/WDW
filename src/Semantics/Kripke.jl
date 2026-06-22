@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Kripke semantics for modal logic
 module Semantics
 
 using ..Logic

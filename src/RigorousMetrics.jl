@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Explicit MDL, PAC-Bayes, and rigorous baseline comparisons
 """
     RigorousMetrics.jl
 

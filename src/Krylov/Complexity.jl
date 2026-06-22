@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Lanczos and Krylov spread complexity
 module Krylov
 
 using LinearAlgebra

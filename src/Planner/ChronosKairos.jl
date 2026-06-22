@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Chronos-Kairos scheduling algorithms
 module Planner
 
 function interleave_roundrobin(seq::Vector{T}, pool::Vector{T}, k::Int) where {T}

@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Haar-wavelet MERA compression and tensor networks
 module Tensor
 using LinearAlgebra
 

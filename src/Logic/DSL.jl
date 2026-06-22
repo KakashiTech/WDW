@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Categorical logic formula DSL
 module Logic
 
 abstract type Formula end

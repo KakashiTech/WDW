@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Flux.jl implementation of auto-symmetry models
 module AutoSymmetryFlux
 
 using Flux

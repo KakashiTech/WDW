@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Finite set theory and function maps
 module Category
 
 struct FinSet{T}

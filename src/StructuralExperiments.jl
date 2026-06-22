@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Structural comparison and MDL compression experiments
 """
     module StructuralExperiments
 

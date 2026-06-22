@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Native E2CNN/escnn/PyG baseline implementations
 """
     RealBaselines.jl
 

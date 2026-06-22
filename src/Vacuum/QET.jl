@@ -1,3 +1,4 @@
+# TIER 3 — EXPERIMENTAL: Quantum energy teleportation analogs
 module Vacuum
 
 using LinearAlgebra

@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: Zero-shot, PAC-Bayes, and cross-domain experiments
 """
     BreakthroughExperiment.jl — REAL (no simulated)
 

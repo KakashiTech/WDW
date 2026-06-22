@@ -1,3 +1,4 @@
+# TIER 2 — RESEARCH: LaTeX/ASCII report generation for benchmark results
 """
     PaperMetrics.jl
 
